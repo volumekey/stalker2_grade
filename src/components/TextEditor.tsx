@@ -144,7 +144,7 @@ const TextEditor: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Функция для публикации оценки через PHP-скрипт
+  // Функция для публикации оценки через API‑роут Next.js
   const handlePublish = async () => {
     const evaluationData = {
       ratings,
@@ -153,7 +153,7 @@ const TextEditor: React.FC = () => {
     };
 
     try {
-      const response = await fetch('/saveEvaluation.php', {
+      const response = await fetch('/api/saveEvaluation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,11 +168,11 @@ const TextEditor: React.FC = () => {
       const result = await response.json();
       const { id } = result;
 
-      // Переход на страницу с опубликованной оценкой, например evaluation.php?id=123456
-      window.location.href = `/evaluation.php?id=${id}`;
+      // Переход на страницу с опубликованной оценкой, например /evaluation/123
+      window.location.href = `/evaluation/${id}`;
     } catch (error) {
       console.error(error);
-      // Можно добавить уведомление об ошибке для пользователя
+      // Здесь можно добавить уведомление об ошибке для пользователя
     }
   };
 
