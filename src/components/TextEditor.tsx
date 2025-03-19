@@ -28,7 +28,12 @@ const DEFAULT_FIELDS: EditorField[] = [
   { id: 'Эмбиент', label: 'Эмбиент', isRating: true },
   { id: 'Атмосфера', label: 'Атмосфера', isRating: true },
   { id: 'Доп. квесты', label: 'Доп. квесты', isRating: true },
-  { id: 'МИНУСЫ', label: 'МИНУСЫ', placeholder: 'Минусы...', isRating: false },
+  { 
+    id: 'МИНУСЫ', 
+    label: 'минусы/чего не хватает', 
+    placeholder: 'минусы/чего не хватает...', 
+    isRating: false 
+  },
   { id: 'ПЛЮСЫ', label: 'ПЛЮСЫ', placeholder: 'Плюсы...', isRating: false },
 ];
 
@@ -106,6 +111,11 @@ const TextEditor: React.FC = () => {
       setIsAddDialogOpen(false);
     }
   };
+
+  // Расчёт итоговой оценки (среднее значение всех рейтингов)
+  const finalRating = ratings.length
+    ? ratings.reduce((sum, rating) => sum + rating.value, 0) / ratings.length
+    : 0;
 
   // Функция для формирования текстового файла со структурированными оценками и комментариями (Минусы и Плюсы)
   const handleDownload = () => {
@@ -262,7 +272,27 @@ const TextEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* Текстовые поля (Минусы и Плюсы) */}
+          {/* Итоговая оценка */}
+          <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
+            <h2 className="text-white text-xl font-medium mb-6">Итоговая оценка</h2>
+            <div className="flex justify-between items-center">
+              <div className="text-editor-accent font-bold text-2xl">
+                {finalRating.toFixed(1)}
+              </div>
+            </div>
+            <div className="flex items-center gap-3 mt-4">
+              <Slider
+                value={[finalRating]}
+                max={10}
+                step={0.1}
+                onValueChange={() => {}}
+                className="bg-opacity-20"
+                disabled
+              />
+            </div>
+          </div>
+
+          {/* Текстовые поля (Минусы/Плюсы) */}
           {DEFAULT_FIELDS.filter(field => !field.isRating).map((field) => (
             <div key={field.id} className="mb-8">
               <div className="editor-label mb-2">{field.label}</div>
@@ -288,7 +318,7 @@ const TextEditor: React.FC = () => {
                   При наведении на область оценки в рейтинге появятся кнопки управления этой областью.
                   Ты можешь редактировать название области, удалить её и добавить уточнение, нажав на значок информации.
                   <br /><br />
-                  Также снизу есть две области: "Плюсы" и "Минусы" для записи твоих общих впечатлений об игре.
+                  Также снизу есть две области: "Плюсы" и "минусы/чего не хватает" для записи твоих общих впечатлений об игре.
                   <br /><br />
                   <span className="text-xs">Все данные сохраняются в куках твоего браузера.</span>
                 </div>
