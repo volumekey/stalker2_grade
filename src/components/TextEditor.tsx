@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Info, Edit2, Trash2, Plus, Settings } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
@@ -64,7 +64,17 @@ const TextEditor: React.FC = () => {
   
   // Состояния для настроек
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isStalkerCursor, setIsStalkerCursor] = useState(false);
+  // Используем useLocalStorage для сохранения выбранного курсора
+  const [isStalkerCursor, setIsStalkerCursor] = useLocalStorage('editor-stalkerCursor', false);
+
+  // Применяем класс к body, чтобы менять курсор во всех диалоговых окнах
+  useEffect(() => {
+    if (isStalkerCursor) {
+      document.body.classList.add('stalker-cursor');
+    } else {
+      document.body.classList.remove('stalker-cursor');
+    }
+  }, [isStalkerCursor]);
 
   const handleTextChange = (id: string, text: string) => {
     setContent(prev => ({ ...prev, [id]: text }));
