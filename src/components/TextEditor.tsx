@@ -159,7 +159,7 @@ const TextEditor: React.FC = () => {
   return (
     <div 
       className="w-full h-screen bg-editor-bg overflow-hidden relative"
-      style={isStalkerCursor ? { cursor: "url('/public/stalker.cur'), auto" } : {}}
+      style={isStalkerCursor ? { cursor: "url('/stalker.cur'), auto" } : {}}
     >
       {/* Верхняя панель */}
       <div className="h-[60px] border-b border-editor-separator flex items-center justify-between px-4 bg-black bg-opacity-90 backdrop-blur-md z-10">
