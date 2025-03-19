@@ -30,11 +30,11 @@ const DEFAULT_FIELDS: EditorField[] = [
   { id: 'Доп. квесты', label: 'Доп. квесты', isRating: true },
   { 
     id: 'МИНУСЫ', 
-    label: 'минусы/чего не хватает', 
+    label: 'Минусы/чего не хватает', 
     placeholder: 'минусы/чего не хватает...', 
     isRating: false 
   },
-  { id: 'ПЛЮСЫ', label: 'ПЛЮСЫ', placeholder: 'Плюсы...', isRating: false },
+  { id: 'ПЛЮСЫ', label: 'Плюсы', placeholder: 'плюсы...', isRating: false },
 ];
 
 const DEFAULT_RATINGS: RatingField[] = [
