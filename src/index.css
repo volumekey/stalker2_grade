@@ -152,9 +152,7 @@ textarea:focus {
   }
 }
 
-/* Глобальное правило для изменения курсора во всех диалоговых окнах и остальных элементах,
-   если активирован режим STALKER */
-body.stalker-cursor,
-body.stalker-cursor * {
-  cursor: url('/stalker.cur'), auto !important;
+/* Изменяем только базовый курсор, не затрагивая элементы с явными установками (например, ползунки или текстовые поля) */
+body.stalker-cursor {
+  cursor: url('/stalker.cur'), auto;
 }
