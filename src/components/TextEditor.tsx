@@ -168,9 +168,7 @@ const TextEditor: React.FC = () => {
           {/* Значок настроек */}
           <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
             <DialogTrigger asChild>
-              <button
-                className="p-2 rounded-full hover:bg-green-800 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
+              <button className="p-2 rounded-full hover:bg-green-800 transition-colors">
                 <Settings size={20} className="text-green-500" />
               </button>
             </DialogTrigger>
@@ -178,7 +176,7 @@ const TextEditor: React.FC = () => {
               <h2 className="text-lg mb-4">Настройки</h2>
               <div className="flex items-center justify-between">
                 <span>Курсор STALKER</span>
-                {/* Toggle switch без фокусного зеленого выделения */}
+                {/* Переключатель без зеленого фокуса */}
                 <label htmlFor="cursor-toggle" className="inline-flex relative items-center cursor-pointer">
                   <input 
                     type="checkbox" 
@@ -187,17 +185,14 @@ const TextEditor: React.FC = () => {
                     onChange={(e) => setIsStalkerCursor(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-700 rounded-full transition-colors duration-200 peer-checked:bg-green-500"></div>
+                  <div className="w-11 h-6 bg-gray-700 rounded-full peer-checked:bg-green-500 transition-colors duration-200"></div>
                   <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform peer-checked:translate-x-5"></div>
                 </label>
               </div>
             </DialogContent>
           </Dialog>
         </div>
-        <button
-          onClick={handleDownload}
-          className="text-white hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-        >
+        <button onClick={handleDownload} className="text-white hover:text-green-500">
           Скачать оценку
         </button>
       </div>
@@ -211,9 +206,7 @@ const TextEditor: React.FC = () => {
             <div className="absolute top-4 right-4">
               <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                 <DialogTrigger asChild>
-                  <button
-                    className="p-2 rounded-full bg-transparent hover:bg-green-800 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
-                  >
+                  <button className="p-2 rounded-full bg-transparent hover:bg-green-800 transition-colors">
                     <Plus size={20} className="text-green-500" />
                   </button>
                 </DialogTrigger>
@@ -228,7 +221,7 @@ const TextEditor: React.FC = () => {
                     />
                     <button
                       onClick={handleAddRating}
-                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
                     >
                       Создать
                     </button>
@@ -264,28 +257,26 @@ const TextEditor: React.FC = () => {
                             ? handleSaveRating(rating.id)
                             : setEditingRating({ id: rating.id, label: rating.label })
                         }
-                        className="text-green-500 hover:text-green-400 transition-colors opacity-0 group-hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="text-green-500 hover:text-green-400 transition-colors opacity-0 group-hover:opacity-100"
                       >
                         {editingRating && editingRating.id === rating.id ? 'Сохранить' : <Edit2 size={16} />}
                       </button>
                       <button
                         onClick={() => handleDeleteRating(rating.id)}
-                        className="text-red-500 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="text-red-500 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 size={16} />
                       </button>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <button
-                            className="text-green-500 hover:text-green-400 transition-colors opacity-0 group-hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500"
-                          >
+                          <button className="text-green-500 hover:text-green-400 transition-colors opacity-0 group-hover:opacity-100">
                             <Info size={16} />
                           </button>
                         </DialogTrigger>
                         <DialogContent className="bg-editor-bg border-editor-separator">
                           <div className="p-2">
                             <Textarea
-                              className="bg-editor-bg text-editor-text border-editor-separator focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="bg-editor-bg text-editor-text border-editor-separator"
                               placeholder={`Почему ты поставил ${rating.value} за ${rating.label}?`}
                               value={rating.info}
                               onChange={(e) => handleRatingInfoChange(rating.id, e.target.value)}
@@ -331,12 +322,12 @@ const TextEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* Текстовые поля для плюсов и минусов */}
+          {/* Текстовые поля */}
           {DEFAULT_FIELDS.filter(field => !field.isRating).map((field) => (
             <div key={field.id} className="mb-8">
               <div className="editor-label mb-2">{field.label}</div>
               <Textarea
-                className="min-h-36 text-xl p-4 bg-black bg-opacity-30 border border-editor-separator rounded-md text-editor-text font-mono focus:outline-none focus:border-editor-accent transition-colors focus:ring-2 focus:ring-green-500"
+                className="min-h-36 text-xl p-4 bg-black bg-opacity-30 border border-editor-separator rounded-md text-editor-text font-mono focus:outline-none focus:border-editor-accent focus:ring-2 focus:ring-green-500 transition-colors"
                 placeholder={field.placeholder}
                 value={content[field.id] || ''}
                 onChange={(e) => handleTextChange(field.id, e.target.value)}
@@ -348,7 +339,7 @@ const TextEditor: React.FC = () => {
           <div className="flex justify-center mt-4">
             <Dialog open={isGuideOpen} onOpenChange={setIsGuideOpen}>
               <DialogTrigger asChild>
-                <button className="text-green-500 text-lg focus:outline-none focus:ring-2 focus:ring-green-500">гайд</button>
+                <button className="text-green-500 text-lg">гайд</button>
               </DialogTrigger>
               <DialogContent className="bg-black text-green-500 border border-green-700 p-4 rounded-lg transition-all duration-300">
                 <div className="mt-4 text-sm text-center">
