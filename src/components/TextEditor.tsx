@@ -64,10 +64,10 @@ const TextEditor: React.FC = () => {
   
   // Состояния для настроек
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  // Используем useLocalStorage для сохранения выбранного курсора
+  // Сохраняем выбранный курсор в localStorage
   const [isStalkerCursor, setIsStalkerCursor] = useLocalStorage('editor-stalkerCursor', false);
 
-  // Применяем класс к body, чтобы менять курсор во всех диалоговых окнах
+  // Применяем класс к body для изменения обычного курсора
   useEffect(() => {
     if (isStalkerCursor) {
       document.body.classList.add('stalker-cursor');
@@ -186,7 +186,7 @@ const TextEditor: React.FC = () => {
               <h2 className="text-lg mb-4">Настройки</h2>
               <div className="flex items-center justify-between">
                 <span>Курсор STALKER</span>
-                {/* Переключатель без зеленого фокуса */}
+                {/* Переключатель */}
                 <label htmlFor="cursor-toggle" className="inline-flex relative items-center cursor-pointer">
                   <input 
                     type="checkbox" 
