@@ -138,9 +138,11 @@
     @apply w-full h-px bg-editor-separator my-4;
   }
 
+  /*
   body {
     cursor: url('/public/stalker.cur'), auto;
   }
+  */
 
   /* Textarea customizations */
   textarea:focus {
