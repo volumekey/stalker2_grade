@@ -327,11 +327,12 @@ const TextEditor: React.FC = () => {
             <div key={field.id} className="mb-8">
               <div className="editor-label mb-2">{field.label}</div>
               <Textarea
-                className="min-h-36 text-xl p-4 bg-black bg-opacity-30 border border-editor-separator rounded-md text-editor-text font-mono focus:outline-none focus:border-editor-accent focus:ring-2 focus:ring-green-500 transition-colors"
-                placeholder={field.placeholder}
-                value={content[field.id] || ''}
-                onChange={(e) => handleTextChange(field.id, e.target.value)}
+              className="min-h-36 text-xl p-4 bg-black bg-opacity-30 border border-editor-separator rounded-md text-editor-text font-mono focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500 ring-offset-0 transition-colors"
+              placeholder={field.placeholder}
+              value={content[field.id] || ''}
+              onChange={(e) => handleTextChange(field.id, e.target.value)}
               />
+
             </div>
           ))}
 
