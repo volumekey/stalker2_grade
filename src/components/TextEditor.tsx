@@ -176,12 +176,18 @@ const TextEditor: React.FC = () => {
               <h2 className="text-lg mb-4">Настройки</h2>
               <div className="flex items-center justify-between">
                 <span>Курсор STALKER</span>
-                <input 
-                  type="checkbox" 
-                  checked={isStalkerCursor} 
-                  onChange={(e) => setIsStalkerCursor(e.target.checked)}
-                  className="w-5 h-5"
-                />
+                {/* Красивый переключатель (toggle switch) */}
+                <label htmlFor="cursor-toggle" className="inline-flex relative items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    id="cursor-toggle"
+                    checked={isStalkerCursor} 
+                    onChange={(e) => setIsStalkerCursor(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-700 rounded-full peer-focus:ring-2 peer-focus:ring-green-500 peer-checked:bg-green-500 transition-colors duration-200"></div>
+                  <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform peer-checked:translate-x-5"></div>
+                </label>
               </div>
             </DialogContent>
           </Dialog>
