@@ -184,7 +184,7 @@ const TextEditor: React.FC = () => {
                   <div className="flex flex-col gap-4 mt-4">
                     <input
                       type="text"
-                      placeholder="Название области"
+                      placeholder="Название критерия"
                       value={newRatingName}
                       onChange={(e) => setNewRatingName(e.target.value)}
                       className="p-2 border border-green-700 rounded-md bg-black text-green-500 focus:outline-none"
@@ -316,8 +316,8 @@ const TextEditor: React.FC = () => {
                 <div className="mt-4 text-sm text-center">
                   Привет, здесь ты можешь оценить Сталкер 2.
                   <br /><br />
-                  При наведении на область оценки в рейтинге появятся кнопки управления этой областью.
-                  Ты можешь редактировать название области, удалить её и добавить уточнение, нажав на значок информации.
+                  При наведении на критерий оценки появятся кнопки управления этим критерием.
+                  Ты можешь редактировать название критерия, удалить её и добавить уточнение, нажав на значок информации.
                   <br /><br />
                   Также снизу есть две области: "Плюсы" и "минусы/чего не хватает" для записи твоих общих впечатлений об игре.
                   <br /><br />
