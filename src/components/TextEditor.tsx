@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { Info, Edit2, Trash2, Plus } from 'lucide-react';
+import { Info, Edit2, Trash2, Plus, Settings } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
@@ -61,6 +61,10 @@ const TextEditor: React.FC = () => {
   const [editingRating, setEditingRating] = useState<{ id: string; label: string } | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  
+  // Состояния для настроек
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isStalkerCursor, setIsStalkerCursor] = useState(false);
 
   const handleTextChange = (id: string, text: string) => {
     setContent(prev => ({ ...prev, [id]: text }));
@@ -153,10 +157,35 @@ const TextEditor: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-editor-bg overflow-hidden relative">
+    <div 
+      className="w-full h-screen bg-editor-bg overflow-hidden relative"
+      style={isStalkerCursor ? { cursor: "url('/images/stalker-cursor.cur'), auto" } : {}}
+    >
       {/* Верхняя панель */}
       <div className="h-[60px] border-b border-editor-separator flex items-center justify-between px-4 bg-black bg-opacity-90 backdrop-blur-md z-10">
-        <h1 className="text-editor-accent text-2xl font-mono font-bold">Оценка STALKER 2</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-editor-accent text-2xl font-mono font-bold">Оценка STALKER 2</h1>
+          {/* Значок настроек */}
+          <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+            <DialogTrigger asChild>
+              <button className="p-2 rounded-full hover:bg-green-800 transition-colors">
+                <Settings size={20} className="text-green-500" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="bg-black text-green-500 border border-green-700 p-4 rounded-lg transition-all duration-300">
+              <h2 className="text-lg mb-4">Настройки</h2>
+              <div className="flex items-center justify-between">
+                <span>Курсор STALKER</span>
+                <input 
+                  type="checkbox" 
+                  checked={isStalkerCursor} 
+                  onChange={(e) => setIsStalkerCursor(e.target.checked)}
+                  className="w-5 h-5"
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         <button onClick={handleDownload} className="text-white hover:text-green-500">
           Скачать оценку
         </button>
@@ -165,7 +194,7 @@ const TextEditor: React.FC = () => {
       {/* Основной контент */}
       <div className="p-6 overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
         <div className="max-w-4xl mx-auto">
-          {/* Рейтинг */}
+          {/* Блок с критериями оценки */}
           <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
             <h2 className="text-white text-xl font-medium mb-6">Критерии оценки</h2>
             <div className="absolute top-4 right-4">
