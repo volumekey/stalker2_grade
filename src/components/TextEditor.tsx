@@ -127,7 +127,7 @@ const TextEditor: React.FC = () => {
     
     const fileName = `Оценка_${moscowDateStr}_${moscowTimeStr}.txt`;
 
-    let fileContent = '=== РЕЙТИНГИ ===\n\n';
+    let fileContent = '=== Критерии оценки ===\n\n';
     ratings.forEach(rating => {
       fileContent += `Название: ${rating.label}\n`;
       fileContent += `Оценка: ${rating.value} из ${rating.max}\n`;
@@ -171,7 +171,7 @@ const TextEditor: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Контейнер рейтингов */}
           <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
-            <h2 className="text-white text-xl font-medium mb-6">Рейтинги</h2>
+            <h2 className="text-white text-xl font-medium mb-6">Критерии оценки</h2>
             {/* Кнопка для добавления новой области */}
             <div className="absolute top-4 right-4">
               <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
