@@ -56,6 +56,9 @@ const DEFAULT_CONTENT: Record<string, string> = DEFAULT_FIELDS.reduce(
 const TextEditor: React.FC = () => {
   const [content, setContent] = useLocalStorage('editor-content', DEFAULT_CONTENT);
   const [ratings, setRatings] = useLocalStorage('editor-ratings', DEFAULT_RATINGS);
+  // Добавляем состояние для итоговой оценки (manualFinalRating)
+  const [manualFinalRating, setManualFinalRating] = useLocalStorage('editor-finalRating', 0);
+  
   const [newRatingName, setNewRatingName] = useState('');
   const [editingRating, setEditingRating] = useState<{ id: string; label: string } | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -112,11 +115,6 @@ const TextEditor: React.FC = () => {
     }
   };
 
-  // Расчёт итоговой оценки (среднее значение всех рейтингов)
-  const finalRating = ratings.length
-    ? ratings.reduce((sum, rating) => sum + rating.value, 0) / ratings.length
-    : 0;
-
   // Функция для формирования текстового файла со структурированными оценками и комментариями (Минусы и Плюсы)
   const handleDownload = () => {
     const now = new Date();
@@ -138,6 +136,10 @@ const TextEditor: React.FC = () => {
       }
       fileContent += '\n';
     });
+
+    // Добавляем итоговую оценку в файл
+    fileContent += `=== Итоговая оценка ===\n\n`;
+    fileContent += `Оценка: ${manualFinalRating.toFixed(1)} из 10\n\n`;
 
     fileContent += '=== КОММЕНТАРИИ ===\n\n';
     DEFAULT_FIELDS.filter(field => !field.isRating).forEach(field => {
@@ -272,22 +274,21 @@ const TextEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* Итоговая оценка */}
+          {/* Итоговая оценка (задаётся вручную) */}
           <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
             <h2 className="text-white text-xl font-medium mb-6">Итоговая оценка</h2>
             <div className="flex justify-between items-center">
               <div className="text-editor-accent font-bold text-2xl">
-                {finalRating.toFixed(1)}
+                {manualFinalRating.toFixed(1)}
               </div>
             </div>
             <div className="flex items-center gap-3 mt-4">
               <Slider
-                value={[finalRating]}
+                value={[manualFinalRating]}
                 max={10}
                 step={0.1}
-                onValueChange={() => {}}
+                onValueChange={(value) => setManualFinalRating(value[0])}
                 className="bg-opacity-20"
-                disabled
               />
             </div>
           </div>
