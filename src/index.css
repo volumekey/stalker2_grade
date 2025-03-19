@@ -116,6 +116,13 @@
   }
 }
 
+/* Глобальное переопределение стилей для textarea при фокусе */
+textarea:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 1px #6b7280 !important;
+  caret-color: #6b7280;
+}
+
 @layer components {
   .editor-backdrop {
     @apply bg-editor-bg bg-opacity-95 backdrop-blur-lg;
@@ -137,10 +144,10 @@
     @apply w-full h-px bg-editor-separator my-4;
   }
 
-  /* Переопределение стилей для textarea при фокусе */
+  /* Переопределение стилей для textarea при фокусе (компонент) */
   textarea:focus {
     outline: none !important;
-    box-shadow: 0 0 0 2px #22c55e !important;
-    caret-color: #22c55e;
+    box-shadow: 0 0 0 1px #6b7280 !important;
+    caret-color: #6b7280;
   }
 }
