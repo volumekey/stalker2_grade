@@ -107,7 +107,7 @@ const TextEditor: React.FC = () => {
     }
   };
 
-  // Функция для формирования текстового файла со структурированными оценками и комментариями (Минусы и Плюсы)
+  // Функция для формирования текстового файла (для скачивания)
   const handleDownload = () => {
     const now = new Date();
     const moscowNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
@@ -129,7 +129,7 @@ const TextEditor: React.FC = () => {
       fileContent += '\n';
     });
 
-    fileContent += '=== КОММЕНТАРИИ ===\n\n';
+    // Добавляем только поля "МИНУСЫ" и "ПЛЮСЫ" без отдельного заголовка
     DEFAULT_FIELDS.filter(field => !field.isRating).forEach(field => {
       fileContent += `${field.label}:\n`;
       fileContent += `${content[field.id]}\n\n`;
@@ -144,14 +144,51 @@ const TextEditor: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Функция для публикации оценки через PHP-скрипт
+  const handlePublish = async () => {
+    const evaluationData = {
+      ratings,
+      content,
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      const response = await fetch('/saveEvaluation.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(evaluationData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка сохранения оценки');
+      }
+
+      const result = await response.json();
+      const { id } = result;
+
+      // Переход на страницу с опубликованной оценкой, например evaluation.php?id=123456
+      window.location.href = `/evaluation.php?id=${id}`;
+    } catch (error) {
+      console.error(error);
+      // Можно добавить уведомление об ошибке для пользователя
+    }
+  };
+
   return (
     <div className="w-full h-screen bg-editor-bg overflow-hidden relative">
-      {/* Верхняя панель с заголовком и кнопкой скачивания */}
+      {/* Верхняя панель с заголовком и кнопками */}
       <div className="h-[60px] border-b border-editor-separator flex items-center justify-between px-4 bg-black bg-opacity-90 backdrop-blur-md z-10">
         <h1 className="text-editor-accent text-2xl font-mono font-bold">Оценка STALKER 2</h1>
-        <button onClick={handleDownload} className="text-white hover:text-green-500">
-          Скачать оценку
-        </button>
+        <div className="flex items-center gap-4">
+          <button onClick={handleDownload} className="text-white hover:text-green-500">
+            Скачать оценку
+          </button>
+          <button onClick={handlePublish} className="text-white hover:text-green-500">
+            Сохранить оценку
+          </button>
+        </div>
       </div>
 
       {/* Основной контент */}
@@ -262,7 +299,7 @@ const TextEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* Текстовые поля (Минусы и Плюсы) */}
+          {/* Текстовые поля (только Минусы и Плюсы) */}
           {DEFAULT_FIELDS.filter(field => !field.isRating).map((field) => (
             <div key={field.id} className="mb-8">
               <div className="editor-label mb-2">{field.label}</div>
