@@ -47,7 +47,6 @@ const DEFAULT_RATINGS: RatingField[] = [
   { id: 'Доп. квесты', label: 'Доп. квесты', value: 0, max: 10, info: '' },
 ];
 
-// Содержимое текстовых полей (для Минусы и Плюсы)
 const DEFAULT_CONTENT: Record<string, string> = DEFAULT_FIELDS.reduce(
   (acc, field) => ({ ...acc, [field.id]: '' }),
   {}
@@ -56,7 +55,6 @@ const DEFAULT_CONTENT: Record<string, string> = DEFAULT_FIELDS.reduce(
 const TextEditor: React.FC = () => {
   const [content, setContent] = useLocalStorage('editor-content', DEFAULT_CONTENT);
   const [ratings, setRatings] = useLocalStorage('editor-ratings', DEFAULT_RATINGS);
-  // Добавляем состояние для итоговой оценки (manualFinalRating)
   const [manualFinalRating, setManualFinalRating] = useLocalStorage('editor-finalRating', 0);
   
   const [newRatingName, setNewRatingName] = useState('');
@@ -115,7 +113,6 @@ const TextEditor: React.FC = () => {
     }
   };
 
-  // Функция для формирования текстового файла со структурированными оценками и комментариями (Минусы и Плюсы)
   const handleDownload = () => {
     const now = new Date();
     const moscowNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
@@ -137,7 +134,6 @@ const TextEditor: React.FC = () => {
       fileContent += '\n';
     });
 
-    // Добавляем итоговую оценку в файл
     fileContent += `=== Итоговая оценка ===\n\n`;
     fileContent += `Оценка: ${manualFinalRating.toFixed(1)} из 10\n\n`;
 
@@ -158,7 +154,7 @@ const TextEditor: React.FC = () => {
 
   return (
     <div className="w-full h-screen bg-editor-bg overflow-hidden relative">
-      {/* Верхняя панель с заголовком и кнопкой скачивания */}
+      {/* Верхняя панель */}
       <div className="h-[60px] border-b border-editor-separator flex items-center justify-between px-4 bg-black bg-opacity-90 backdrop-blur-md z-10">
         <h1 className="text-editor-accent text-2xl font-mono font-bold">Оценка STALKER 2</h1>
         <button onClick={handleDownload} className="text-white hover:text-green-500">
@@ -169,10 +165,9 @@ const TextEditor: React.FC = () => {
       {/* Основной контент */}
       <div className="p-6 overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
         <div className="max-w-4xl mx-auto">
-          {/* Контейнер рейтингов */}
+          {/* Рейтинг */}
           <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
             <h2 className="text-white text-xl font-medium mb-6">Критерии оценки</h2>
-            {/* Кнопка для добавления новой области */}
             <div className="absolute top-4 right-4">
               <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                 <DialogTrigger asChild>
@@ -200,7 +195,6 @@ const TextEditor: React.FC = () => {
               </Dialog>
             </div>
 
-            {/* Сетка с рейтингами */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {ratings.map((rating) => (
                 <div key={rating.id} className="space-y-2 group">
@@ -266,7 +260,7 @@ const TextEditor: React.FC = () => {
                       max={rating.max}
                       step={0.1}
                       onValueChange={(value) => handleRatingChange(rating.id, value)}
-                      className="bg-opacity-20"
+                      className="bg-opacity-20 cursor-grab active:cursor-grabbing"
                     />
                   </div>
                 </div>
@@ -274,7 +268,7 @@ const TextEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* Итоговая оценка (задаётся вручную) */}
+          {/* Итоговая оценка */}
           <div className="relative mb-8 p-6 rounded-lg bg-gradient-to-br from-gray-900 to-black border border-editor-separator">
             <h2 className="text-white text-xl font-medium mb-6">Итоговая оценка</h2>
             <div className="flex justify-between items-center">
@@ -288,12 +282,12 @@ const TextEditor: React.FC = () => {
                 max={10}
                 step={0.1}
                 onValueChange={(value) => setManualFinalRating(value[0])}
-                className="bg-opacity-20"
+                className="bg-opacity-20 cursor-grab active:cursor-grabbing"
               />
             </div>
           </div>
 
-          {/* Текстовые поля (Минусы/Плюсы) */}
+          {/* Текстовые поля */}
           {DEFAULT_FIELDS.filter(field => !field.isRating).map((field) => (
             <div key={field.id} className="mb-8">
               <div className="editor-label mb-2">{field.label}</div>
@@ -306,7 +300,7 @@ const TextEditor: React.FC = () => {
             </div>
           ))}
 
-          {/* Кнопка для показа гида */}
+          {/* Кнопка для гида */}
           <div className="flex justify-center mt-4">
             <Dialog open={isGuideOpen} onOpenChange={setIsGuideOpen}>
               <DialogTrigger asChild>
